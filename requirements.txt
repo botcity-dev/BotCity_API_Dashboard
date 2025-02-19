@@ -15,7 +15,7 @@ Flask==2.2.3
 idna==3.10
 importlib-metadata==6.6.0
 itsdangerous==2.1.2
-Jinja2==3.1.2
+Jinja2==3.1.5
 MarkupSafe==2.1.2
 numpy==2.2.2
 packaging==23.1
