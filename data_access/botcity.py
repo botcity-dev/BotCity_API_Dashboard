@@ -88,7 +88,7 @@ class BotcityDataAccess:
 
                 cron_obj = QuartzCron(schedule_string=cron, start_date=from_date, end_date=to_date)
 
-                next_schedules = cron_obj.next_triggers(number_of_triggers=10,isoformat=True)
+                next_schedules = cron_obj.next_triggers(number_of_triggers=10,isoformat=True) # pegamos as próximas 10 datas
 
                 # adicionamos ao dataframe
                 for next_schedule in next_schedules:
