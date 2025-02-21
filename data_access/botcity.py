@@ -1,6 +1,6 @@
+from datetime import datetime, timezone
 import pandas as pd
-from datetime import datetime, timedelta
-from cstriggers.core.trigger import QuartzCron
+import cronexpr
 
 # System Libs
 import sys
@@ -77,8 +77,8 @@ class BotcityDataAccess:
         result = self._dso.get_schedulings()
 
         # como o cron está baseado no horário utc, vamos pegar uma data de início e fim também utc
-        from_date = datetime.utcnow()
-        to_date = from_date + timedelta(days=1)
+        from_date = datetime.now(timezone.utc)
+        # to_date = from_date + timedelta(days=1)
 
         data = []
         for schedule in result['content']:
@@ -86,18 +86,16 @@ class BotcityDataAccess:
                 # vamos pegar a lista de datas das próximas execuções dado uma data de início e fim
                 cron = schedule['cron']
 
-                cron_obj = QuartzCron(schedule_string=cron, start_date=from_date, end_date=to_date)
-
-                next_schedules = cron_obj.next_triggers(number_of_triggers=10,isoformat=True) # pegamos as próximas 10 datas
-
                 # adicionamos ao dataframe
-                for next_schedule in next_schedules:
+                for i in range(30):
+
+                    from_date = cronexpr.next_fire(cron, from_date)
 
                     row = {
                         'bot': schedule.get('activityLabel'),
                         'automations': schedule.get('parameters', {}).get('automations'),
                         #'Descrição': schedule.get('activityName', '').split(' - ', 1)[-1],
-                        'start_date': next_schedule,
+                        'start_date': cronexpr.next_fire(cron, from_date),
                     }
                     data.append(row)
 
@@ -120,10 +118,10 @@ class BotcityDataAccess:
             df['start_date'] = df['start_date'].dt.tz_convert('America/Sao_Paulo')
 
             # Formatamos para o formato brasileiro
-            df['start_date'] = df['start_date'].dt.strftime('%d/%m/%Y %H:%M')
+            df['start_date'] = df['start_date'].dt.strftime('%d/%m/%Y %H:%M:%S')
 
             # Ordenamos e pegamos os 20 primeiros registros
-            df = df.sort_values(by=['start_date']).head(20)
+            df = df.sort_values(by=['start_date']).head(30)
 
         return df.to_dict('records')
 

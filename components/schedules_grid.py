@@ -14,7 +14,7 @@ def build_schedules_grid() -> dag.AgGrid:
         {
             'headerName': 'Início',
             'field': 'start_date',
-            'width': 150,
+            'width': 200,
             'resizable': False,
         },
     ]

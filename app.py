@@ -14,7 +14,7 @@ from typing import Hashable, Dict, List, Any
 from app import configurations as config
 
 # iniciando app dash
-app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY], title='RPA Operations Center')
+app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY], title='BotCity Dashboard')
 
 
 # iniciando acesso ao botcity
@@ -32,7 +32,7 @@ app.layout = dbc.Container(
     [
         dbc.Row(
             [
-                dbc.Col(html.Div('RPA Operations Center', className='h2 p-2 text-white'), className='py-2'),
+                dbc.Col(html.Div('BotCity Dashboard', className='h2 p-2 text-white'), className='py-2'),
                 dbc.Col(html.Div(
                     [daq.BooleanSwitch(on=True, label='Refresh Automático', id='refresh-switch', color="#9B51E0")]),
                         className='py-2')
