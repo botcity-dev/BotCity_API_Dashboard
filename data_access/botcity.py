@@ -59,13 +59,13 @@ class BotcityDataAccess:
 
         df = pd.DataFrame(data)
 
+        df = df.sort_values(by=['start_date'], ascending=False).head(100)
+
         if not df.empty:
 
-            df['start_date'] = pd.to_datetime(df['start_date']).dt.tz_convert('America/Sao_Paulo').dt.strftime(r'%d/%m/%Y %H:%M')
+            df['start_date'] = pd.to_datetime(df['start_date']).dt.tz_convert('America/Sao_Paulo').dt.strftime(r'%d/%m/%Y %H:%M:%S')
 
-            df['end_date'] = pd.to_datetime(df['end_date'], errors='coerce').dt.tz_convert('America/Sao_Paulo').dt.strftime(r'%d/%m/%Y %H:%M')
-
-        df = df.sort_values(by=['start_date'])
+            df['end_date'] = pd.to_datetime(df['end_date'], errors='coerce').dt.tz_convert('America/Sao_Paulo').dt.strftime(r'%d/%m/%Y %H:%M:%S')
 
         return df.to_dict('records')
 
