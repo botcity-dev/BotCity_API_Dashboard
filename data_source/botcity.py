@@ -7,7 +7,7 @@ from app import configurations as config
 
 class BotcityApiPlugin:
 
-    API_URL = 'https://developers.botcity.dev/api/v2'
+    API_URL = f'{config.MAESTRO_URL}/api/v2'
     TOKEN_EXPIRATION_TIME = 3600
 
     def __init__(self, login: str, key: str):
