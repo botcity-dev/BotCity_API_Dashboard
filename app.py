@@ -76,7 +76,7 @@ app.layout = dbc.Container(
                 ),
             ]
         ),
-        dcc.Interval(id='refresh-interval', interval=180 * 1000, n_intervals=0),
+        dcc.Interval(id='refresh-interval', interval=60 * 1000, n_intervals=0),
     ]
 )
 
