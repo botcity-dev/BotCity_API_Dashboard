@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 import pandas as pd
 import cronexpr
+from app import configurations as config
 
 # System Libs
 import sys
@@ -63,9 +64,9 @@ class BotcityDataAccess:
 
         if not df.empty:
 
-            df['start_date'] = pd.to_datetime(df['start_date']).dt.tz_convert('America/Sao_Paulo').dt.strftime(r'%d/%m/%Y %H:%M:%S')
+            df['start_date'] = pd.to_datetime(df['start_date']).dt.tz_convert(f'{config.TIMEZONE}').dt.strftime(r'%d/%m/%Y %H:%M:%S')
 
-            df['end_date'] = pd.to_datetime(df['end_date'], errors='coerce').dt.tz_convert('America/Sao_Paulo').dt.strftime(r'%d/%m/%Y %H:%M:%S')
+            df['end_date'] = pd.to_datetime(df['end_date'], errors='coerce').dt.tz_convert(f'{config.TIMEZONE}').dt.strftime(r'%d/%m/%Y %H:%M:%S')
 
         return df.to_dict('records')
 
@@ -114,8 +115,8 @@ class BotcityDataAccess:
             if df['start_date'].dt.tz is None:
                 df['start_date'] = df['start_date'].dt.tz_localize('UTC')
 
-            # Convertemos para o fuso horário de São Paulo
-            df['start_date'] = df['start_date'].dt.tz_convert('America/Sao_Paulo')
+            # Convertemos para o fuso horário definido em config.TIMEZONE
+            df['start_date'] = df['start_date'].dt.tz_convert(f'{config.TIMEZONE}')
 
             # Formatamos para o formato brasileiro
             df['start_date'] = df['start_date'].dt.strftime('%d/%m/%Y %H:%M:%S')
