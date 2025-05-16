@@ -118,11 +118,11 @@ class BotcityDataAccess:
             # Convertemos para o fuso horário definido em config.TIMEZONE
             df['start_date'] = df['start_date'].dt.tz_convert(f'{config.TIMEZONE}')
 
+            # Ordenamos e pegamos os 30 primeiros registros
+            df = df.sort_values(by='start_date',  ascending=True).head(30)
+
             # Formatamos para o formato brasileiro
             df['start_date'] = df['start_date'].dt.strftime('%d/%m/%Y %H:%M:%S')
-
-            # Ordenamos e pegamos os 20 primeiros registros
-            df = df.sort_values(by=['start_date']).head(30)
 
         return df.to_dict('records')
 
